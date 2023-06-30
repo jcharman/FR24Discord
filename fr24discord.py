@@ -3,6 +3,7 @@
 from requests import get, post
 from sys import stderr
 from time import sleep
+from os import environ
 
 # Get the flights from an instance of dump1090
 def getFlights(host, port):
@@ -26,7 +27,7 @@ def sendToDiscord(flight, webhook):
     except KeyError:
         return
 
-    if flightNum != "" and not checkDupe(flightNum):
+    if flightNum != '' and not checkDupe(flightNum):
         message = f'New flight seen!\n[{flightNum}](https://flightradar24.com/{flightNum})' 
         try: 
            post(f'https://discord.com/api/webhooks/{webhook}', json={'content':message})
@@ -38,39 +39,31 @@ def exitErr(message, code):
     print(message, file=stderr)
     exit(code)
 
+def warn(message):
+    print(message, file=stderr)
+
 # Read in the config file.
-def readConfig(configPath):
-    # Read in parameters from the config file.
+def readConfig():
+    # Read in config from environment variables.
     try:
-        configFile = open(configPath, 'r')
-    except FileNotFoundError:
-        print("Configuration file does not exist.")
-        exit(1)
+        host = environ['FR24_HOST']
+    except KeyError:
+        exitErr('Required environment variable not set: FR24_HOST', 1)
+    try:
+        port = environ['DUMP1090_PORT']
+    except KeyError:
+        warn('Environment variable DUMP1090_PORT not set. Using default: 80')
+        port = '80'
+    try:    
+        webhook = environ['DISCORD_WEBHOOK']
+    except KeyError:
+        exitErr('Required environment variable not set: DISCORD_WEBHOOK', 1)
+    try:
+        delay = environ['FR24_DELAY']
+    except KeyError:
+        warn('Environment variable FR24_DELAY not set. Using default: 60')
+        delay = 60
 
-    # Read in all lines except those starting with a # or a non-alphanumeric char.
-    configLines = configFile.readlines()
-    for line in configLines:
-        if line[0] == "#":
-            continue
-        if not line[0].isalnum():
-            continue
-
-        # Remove any spaces from the line then split it to an array on the = sign.
-        splitLn = line.replace(" ", "").strip().split('#')[0].split("=")
-
-        # Pull in the known config lines.
-        if (splitLn[0] == "fr24host"):
-            host = splitLn[1]
-        elif (splitLn[0] == "dump1090port"):
-            port = splitLn[1]
-        elif (splitLn[0] == "discordwebhook"):
-            webhook = splitLn[1]
-        elif (splitLn[0] == "delay"):
-            delay = int(splitLn[1])
-        else:
-            # Error out on an unknown config line.
-            exitErr(f'Unknown config: {splitLn[0]}', 1)
-    
     # Return the config as a dict if we managed to populate all the configs.
     try:
         return({'host':host,'port':port,'webhook':webhook,'delay':delay})
@@ -78,7 +71,7 @@ def readConfig(configPath):
         exitErr('Missing required configuration', 1)
 
 def main():
-    config = readConfig('/etc/fr24discord/fr24discord.conf')
+    config = readConfig()
     while True:
         sleep(config['delay'])
         flights = getFlights(config['host'], config['port'])
