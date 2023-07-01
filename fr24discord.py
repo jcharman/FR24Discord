@@ -30,7 +30,7 @@ def sendToDiscord(flight, webhook):
     if flightNum != '' and not checkDupe(flightNum):
         message = f'New flight seen!\n[{flightNum}](https://flightradar24.com/{flightNum})' 
         try: 
-           post(f'https://discord.com/api/webhooks/{webhook}', json={'content':message})
+           post(webhook, json={'content':message})
         except:
             pass
 

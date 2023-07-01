@@ -33,5 +33,5 @@ $ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=ZXZlcnl0aGluZ21vZGVsYWN
 |---|---|
 | FR24_HOST | Hostname or IP where dump1090 is running |
 | DUMP1090_PORT | Port of dump1090 (Optional, default 80) |
-| DISCORD_WEBHOOK | Last part of the Discord webhook URL |
+| DISCORD_WEBHOOK | Discord webhook URL |
 | FR24_DELAY | Delay between requests to dump1090 in seconds (Optional, default 60)
