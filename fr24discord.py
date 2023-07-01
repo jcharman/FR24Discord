@@ -73,7 +73,7 @@ def readConfig():
 def main():
     config = readConfig()
     while True:
-        sleep(config['delay'])
+        sleep(int(config['delay']))
         flights = getFlights(config['host'], config['port'])
         for flight in flights:
             sendToDiscord(flight, config['webhook'])
