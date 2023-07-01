@@ -9,7 +9,8 @@ A Dockerfile is provided to run under Docker. This can either be built locally o
 ### Pull from Docker Hub
 
 ```
-$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=ZXZlcnl0aGluZ21vZGVsYWN0dWFsbHlkYW5jZWFyb3VuZGZpcmVwbGFjZXNjcmVlbm0-d --restart unless-stopped jakecharmanuk/fr24discord:latest
+$ docker pull jakecharmanuk/fr24discord:latest
+$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=ZXZlcnl0aGluZ21vZGVsYWN0dWFsbHlkYW5jZWFyb3VuZGZpcmVwbGFjZXNjcmVlbm0-d --restart unless-stopped jakecharmanuk/fr24discord
 ```
 
 ### Build locally
