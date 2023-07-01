@@ -10,7 +10,7 @@ A Dockerfile is provided to run under Docker. This can either be built locally o
 
 ```
 $ docker pull jakecharmanuk/fr24discord:latest
-$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=ZXZlcnl0aGluZ21vZGVsYWN0dWFsbHlkYW5jZWFyb3VuZGZpcmVwbGFjZXNjcmVlbm0-d --restart unless-stopped jakecharmanuk/fr24discord
+$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=https://discord.com/api/webhooks/abcd/1234 -d --restart unless-stopped jakecharmanuk/fr24discord
 ```
 
 ### Build locally
@@ -24,7 +24,7 @@ $ cd FR24Discord
 2. Build and run the Docker container
 ```
 $ docker build -t fr24discord .
-$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=ZXZlcnl0aGluZ21vZGVsYWN0dWFsbHlkYW5jZWFyb3VuZGZpcmVwbGFjZXNjcmVlbm0-d --restart unless-stopped fr24discord 
+$ docker run -e FR24_HOST=192.168.1.4 -e DISCORD_WEBHOOK=https://discord.com/api/webhooks/abcd/1234 -d --restart unless-stopped fr24discord 
 ```
 
 ## Supported environment variables
